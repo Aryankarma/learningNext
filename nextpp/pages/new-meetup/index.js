@@ -1,12 +1,11 @@
-import NewMeetupForm from '../../components/meetups/NewMeetupForm'
+import NewMeetupForm from "../../components/meetups/NewMeetupForm";
 
-function returnThis(){
+const takeInput=(input)=>{
+  console.log(input)
+}
 
-    function sendProp(inputData){
-      console.log(inputData)
-    }
+function meetupForm(){
+  return <NewMeetupForm onAddMeetup={takeInput}/>
+}
 
-    return <NewMeetupForm onAddMeetup={sendProp} /> 
-  }
-  
-  export default returnThis;
+export default meetupForm;

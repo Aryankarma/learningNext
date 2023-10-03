@@ -1,4 +1,5 @@
-import MeetupList from '../components/meetups/MeetupList';
+import MeetupList from "../components/meetups/MeetupList";
+import {useState, useEffect} from 'react'
 
 const dummyEvents = [
   {
@@ -38,8 +39,56 @@ const dummyEvents = [
   },
 ];
 
-function returnThis(){
-  return <MeetupList meetups={dummyEvents}/>
+function returnThis(props){ // taking props for static rendering
+
+  // if we need tp fetch some data from an api or backend we have following approach as an option 
+  // const [initialData, updateData] = useState([]);
+
+  // useEffect(()=>{
+  //   updateData(dummyEvents);
+  // }, [])
+
+  {/* but their's am better additional approach to this which is static rendering fot that see the function below  */}
+
+  return <div>
+       {/* <MeetupList meetups={initialData} /> */} {/* for fetching data using useState and useEffect */}
+       {/* <MeetupList meetups={dummyEvents} /> general way */}
+       {/* <MeetupList meetups={props.meetups} /> {// when we are using static rendering */}
+       <MeetupList meetups={props.meetupsbyServer} /> {// when we are using server side rendering
+  }  </div>
 }
+
+// this function is allowed to be async as we are fetching data we need this
+// export async function getStaticProps(){
+//   // this function has to be named getStaticProps only
+//   // this function has to return an object only
+//   // this function has to return an props object under the main return object that props would be the prop we are sending to the main function
+//   return {
+//     props:{
+//       meetups: dummyEvents
+//     },
+//     // till here if we need to update the data on the website we would need to rebuild the website, modify the data and then the content would be updated so to solve that problem, we have {revalidate} it takes a number(seconds) that is the interval to fetch data from the backend (an incoming request) if the reevaluation is set to 10, it will every 10 seconds check for incoming requests and if their any, it will re generate the pages with updated data and will replace them with pre generated pages.
+//     revalidate:10  //revalidate every 10 seconds
+//     // this was all that we can do with static generation. But their are also some cases where we would not be happy with it's limitations sometimes when we may need to update the page ASA we get an incoming request to update data, (e.g. creating a socail media side) we can do this dynamically, and to do this we would have to jump to server side rendering. [checkout the other function getServerSideProps to understand the implementation]
+//   }
+// }
+
+
+export async function getServerSideProps(context){
+  // fetching data from an api.this code runs on the server side not on the client we can also perform operations that use credentials that should not be exposed to the users cause this code only runs on the server
+  
+  // here we can also store the requests that we get and the response we would be sending back again, below is the implementation (for this we would add a prop to the function getServerSideProps)
+  const req = context.req;  // handling requests
+  const res = context.res;  // sending response
+
+
+  return {
+    props:{
+      meetupsbyServer : dummyEvents
+    }
+  }
+}
+
+// xusing getServerSideProps would be preferred if we are handling multiple requests only in 1 particular second. 
 
 export default returnThis;
