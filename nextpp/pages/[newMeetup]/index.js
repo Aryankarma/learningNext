@@ -8,8 +8,7 @@ import MeetupDetail from '../../components/meetups/MeetupDetail.js'
 // }
 
 function returnThis(props){
-    console.log(props);
-    return <MeetupDetail input={obj}/>
+    return <MeetupDetail input={props.meetupData} />
 }
 
 // if you are using a getstaticprops function on a dynamic page then theirs an another funciton that you neet to export to use getstaticprops it's getstaticpaths 
@@ -36,14 +35,22 @@ export async function getStaticPaths(){
         paths:[
             {   
                 params:{
-                    newMeetup: 1
+                    newMeetup: "1"
                 }
             },{
                 params:{
-                    newMeetup : 2
+                    newMeetup : "2"
+                }
+            },{
+                params:{
+                    newMeetup:"3"
+                }
+            },{
+                params:{
+                    newMeetup:"4"
                 }
             }
-        ], fallback: true
+        ], fallback: false
     } 
 }
 
